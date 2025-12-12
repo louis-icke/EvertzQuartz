@@ -38,10 +38,10 @@ class EvertzQuartz {
     /* 
     * Create a new controler 
     * Params :
-    * print		print object for commands to be sent to
-    * timeout		time to wait for command revertive
+    * stream		stream object for commands to be sent to
+    * timeout		milliseconds to wait for command revertive
     */
-    EvertzQuartz(Print &print, int timeout = 10);
+    EvertzQuartz(Stream& stream, int timeout = 5000);
     
     /* 
     * Tests router connection
@@ -127,10 +127,11 @@ class EvertzQuartz {
     */
     int * listRoutes(char level, int dest, int *source=NULL);
   private:
-    /* Printer object used to send commands */
-    Print* _printer;
-    /* Time to wait for revertive */
-    int _timeout;
+    /* Stream object used to send commands */
+    Stream& serial;
+    
+    // Returns revertive from router
+    String getRevertive();
 };
 
 #endif	//EvertzQuartz.h
