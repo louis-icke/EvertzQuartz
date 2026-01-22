@@ -53,14 +53,14 @@ class EvertzQuartz {
     /* 
     * Set crosspoint on router
     * Params :
-    * level		router level. Legel levels are V,A,B,C,D,E,F,G for 8 level systems
+    * levels		router levels to set. Legel levels are V,A,B,C,D,E,F,G for 8 level systems
     *			and V,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O for 16
     * dest		destination number
     * source		source number
     * Returns :
     * bool		returns true if router accepts with revertive
     */
-    bool setXPT(char level, int dest, int source);
+    bool setXPT(String levels, int dest, int source);
     
     /* 
     * Not currently implemented
@@ -126,12 +126,22 @@ class EvertzQuartz {
     * int		array of source numbers
     */
     int * listRoutes(char level, int dest, int *source=NULL);
+
   private:
     /* Stream object used to send commands */
     Stream& serial;
     
     // Returns revertive from router
     String getRevertive();
+
+    /*
+    * Converts int to String with padding
+    * Params :
+    * integer		int to be parsed
+    * Returns :
+    * String		String with padded zeros
+    */
+    String intToString(int integer);
 };
 
 #endif	//EvertzQuartz.h

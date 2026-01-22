@@ -27,7 +27,22 @@
 #include "EvertzQuartz.h"
 
 EvertzQuartz::EvertzQuartz(Stream& stream, int timeout):serial(stream) {
-  
+  serial.setTimeout(timeout);
+}
+
+String EvertzQuartz::getRevertive() {
+  return serial.readStringUntil('\r');
+}
+
+String EvertzQuartz::intToString(int integer) {
+  String stringValue = String(integer);
+  if (stringValue.length() == 1) {
+    return "00" + stringValue;
+  } else if (stringValue.length() == 2) {
+    return "0" + stringValue;
+  } else {
+    return stringValue;
+  }
 }
 
 bool EvertzQuartz::test() {
@@ -36,13 +51,30 @@ bool EvertzQuartz::test() {
   
   String revertive = getRevertive();
   
-  if (revertive==".A") {
+  if (revertive == ".A") {
     return true;
   } else {
     return false;
   }
 }
 
-String EvertzQuartz::getRevertive() {
-  return serial.readStringUntil('\r');
+bool EvertzQuartz::setXPT(String levels, int dest, int source) {
+  // Construct command
+  String command = ".S" + levels + intToString(dest) + "," + intToString(source) + "\r";
+
+  // Send xput command
+  serial.print(command);
+  
+  // Get revertive
+  String revertive = getRevertive();
+
+  // Modify command to match expected revertive
+  command.replace("S","U");
+  
+  if (revertive == command) {
+    return true;
+  } else {
+    return false;
+  }
 }
+
