@@ -60,7 +60,7 @@ bool EvertzQuartz::test() {
 
 bool EvertzQuartz::setXPT(String levels, int dest, int source) {
   // Construct command
-  String command = ".S" + levels + intToString(dest) + "," + intToString(source) + "\r";
+  String command = ".S" + levels + dest + "," + source + "\r";
 
   // Send xput command
   serial.print(command);
@@ -77,7 +77,7 @@ bool EvertzQuartz::setXPT(String levels, int dest, int source) {
 
 bool EvertzQuartz::destLock(int dest) {
   // Construct command
-  String command = ".BL" + intToString(dest) + "\r";
+  String command = ".BL" + dest + "\r";
 
   // Send command
   serial.print(command);
@@ -94,7 +94,7 @@ bool EvertzQuartz::destLock(int dest) {
 
 bool EvertzQuartz::destUnlock(int dest) {
   // Construct command
-  String command = ".BU" + intToString(dest) + "\r";
+  String command = ".BU" + dest + "\r";
 
   // Send command
   serial.print(command);
@@ -111,7 +111,7 @@ bool EvertzQuartz::destUnlock(int dest) {
 
 bool EvertzQuartz::getDestLock(int dest) {
   // Construct command
-  String command = ".BI" + intToString(dest) + "\r";
+  String command = ".BI" + dest + "\r";
 
   // Send command
   serial.print(command);
@@ -123,6 +123,20 @@ bool EvertzQuartz::getDestLock(int dest) {
     return false;
   } else {
     return true;
+  }
+}
+
+bool EvertzQuartz::fireSalvo(int salvo) {
+  // Construct command
+  String command = ".F" + salvo + "\r";
+
+  // Send command
+  serial.print(command);
+
+  if (revertive == ".A") {
+    return true;
+  } else {
+    return false;
   }
 }
 
