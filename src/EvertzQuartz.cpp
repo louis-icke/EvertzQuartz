@@ -133,10 +133,26 @@ bool EvertzQuartz::fireSalvo(int salvo) {
   // Send command
   serial.print(command);
 
+  // Get revertive
+  String revertive = getRevertive();
+
   if (revertive == ".A") {
     return true;
   } else {
     return false;
   }
+}
+
+int getRoute(char level, int dest) {
+  // Construct command
+  String command = ".I" + level + dest + "\r";
+
+  // Send command
+  serial.print(command);
+
+  // Get revertive
+  String revertive = getRevertive();
+
+  return revertive.substr(7, revertive.length()).toInt();
 }
 

@@ -51,7 +51,7 @@ class EvertzQuartz {
     bool test();
     
     /* 
-    * Set crosspoint on router
+    * Set crosspoint on router, multiple levels can be specified
     * Params :
     * levels		router levels to set. Legel levels are V,A,B,C,D,E,F,G for 8 level systems
     *			and V,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O for 16
@@ -113,19 +113,6 @@ class EvertzQuartz {
     * int		source number of route
     */
     int getRoute(char level, int dest);
-    
-    /* 
-    * Returns list of 8 sources.
-    * Params :
-    * level		router level. Legel levels are V,A,B,C,D,E,F,G for 8 level systems
-    *			and V,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O for 16
-    * dest		destination number
-    * source		source number. If specified function will return only those destinations
-    *			using this source
-    * Returns :
-    * int		array of source numbers
-    */
-    int * listRoutes(char level, int dest, int *source=NULL);
 
   private:
     /* Stream object used to send commands */
