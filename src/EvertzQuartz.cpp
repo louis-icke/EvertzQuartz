@@ -68,13 +68,61 @@ bool EvertzQuartz::setXPT(String levels, int dest, int source) {
   // Get revertive
   String revertive = getRevertive();
 
-  // Modify command to match expected revertive
-  command.replace("S","U");
-  
-  if (revertive == command) {
+    if (revertive == ".U" + levels + intToString(dest) + "," + intToString(source)) {
     return true;
   } else {
     return false;
+  }
+}
+
+bool EvertzQuartz::destLock(int dest) {
+  // Construct command
+  String command = ".BL" + intToString(dest) + "\r";
+
+  // Send command
+  serial.print(command);
+
+  // Get revertive
+  String revertive = getRevertive();
+
+  if (revertive == ".BA" + intToString(dest) + ",0") {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+bool EvertzQuartz::destUnlock(int dest) {
+  // Construct command
+  String command = ".BU" + intToString(dest) + "\r";
+
+  // Send command
+  serial.print(command);
+
+  // Get revertive
+  String revertive = getRevertive();
+
+  if (revertive == ".BA" + intToString(dest) + ",0") {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+bool EvertzQuartz::getDestLock(int dest) {
+  // Construct command
+  String command = ".BI" + intToString(dest) + "\r";
+
+  // Send command
+  serial.print(command);
+
+  // Get revertive
+  String revertive = getRevertive();
+
+  if (revertive == ".BA" + intToString(dest) + ",0") {
+    return false;
+  } else {
+    return true;
   }
 }
 
