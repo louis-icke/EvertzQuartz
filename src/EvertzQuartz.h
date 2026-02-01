@@ -40,8 +40,9 @@ class EvertzQuartz {
     * Params :
     * stream		stream object for commands to be sent to
     * timeout		milliseconds to wait for command revertive
+    * debugPtr  stream object for debug messages
     */
-    EvertzQuartz(Stream& stream, int timeout = 5000);
+    EvertzQuartz(Stream& stream, int timeout = 5000, Stream* debugPtr = nullptr);
     
     /* 
     * Tests router connection
@@ -117,6 +118,9 @@ class EvertzQuartz {
   private:
     /* Stream object used to send commands */
     Stream& serial;
+
+    /* Stream pointer for debugging */
+    Stream* debugPtr;
     
     // Returns revertive from router
     String getRevertive();

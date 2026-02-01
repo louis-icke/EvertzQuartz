@@ -26,12 +26,18 @@
 
 #include "EvertzQuartz.h"
 
-EvertzQuartz::EvertzQuartz(Stream& stream, int timeout):serial(stream) {
+EvertzQuartz::EvertzQuartz(Stream& stream, int timeout, Stream* debugPtr):serial(stream),debugPtr(debugPtr) {
   serial.setTimeout(timeout);
 }
 
 String EvertzQuartz::getRevertive() {
-  return serial.readStringUntil('\r');
+  String revertive = serial.readStringUntil('\r');
+
+  if (debugPtr) {
+    debugPtr->println(revertive);
+  }
+
+  return revertive;
 }
 
 String EvertzQuartz::intToString(int integer) {
@@ -77,7 +83,7 @@ bool EvertzQuartz::setXPT(String levels, int dest, int source) {
 
 bool EvertzQuartz::destLock(int dest) {
   // Construct command
-  String command = ".BL" + dest + "\r";
+  String command = ".BL" + String(dest) + "\r";
 
   // Send command
   serial.print(command);
@@ -94,7 +100,7 @@ bool EvertzQuartz::destLock(int dest) {
 
 bool EvertzQuartz::destUnlock(int dest) {
   // Construct command
-  String command = ".BU" + dest + "\r";
+  String command = ".BU" + String(dest) + "\r";
 
   // Send command
   serial.print(command);
@@ -111,7 +117,7 @@ bool EvertzQuartz::destUnlock(int dest) {
 
 bool EvertzQuartz::getDestLock(int dest) {
   // Construct command
-  String command = ".BI" + dest + "\r";
+  String command = ".BI" + String(dest) + "\r";
 
   // Send command
   serial.print(command);
@@ -128,7 +134,7 @@ bool EvertzQuartz::getDestLock(int dest) {
 
 bool EvertzQuartz::fireSalvo(int salvo) {
   // Construct command
-  String command = ".F" + salvo + "\r";
+  String command = ".F" + String(salvo) + "\r";
 
   // Send command
   serial.print(command);
@@ -143,9 +149,9 @@ bool EvertzQuartz::fireSalvo(int salvo) {
   }
 }
 
-int getRoute(char level, int dest) {
+int EvertzQuartz::getRoute(char level, int dest) {
   // Construct command
-  String command = ".I" + level + dest + "\r";
+  String command = ".I" + level + String(dest) + "\r";
 
   // Send command
   serial.print(command);
@@ -153,6 +159,6 @@ int getRoute(char level, int dest) {
   // Get revertive
   String revertive = getRevertive();
 
-  return revertive.substr(7, revertive.length()).toInt();
+  return revertive.substring(7, revertive.length()).toInt();
 }
 
