@@ -158,7 +158,7 @@ bool EvertzQuartz::fireSalvo(int salvo) {
   }
 }
 
-int EvertzQuartz::getRoute(char level, int dest) {
+int EvertzQuartz::getRoute(String level, int dest) {
   // Construct command
   String command = ".I" + level + String(dest) + "\r";
 

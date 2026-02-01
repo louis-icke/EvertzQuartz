@@ -113,7 +113,7 @@ class EvertzQuartz {
     * Returns :
     * int		source number of route
     */
-    int getRoute(char level, int dest);
+    int getRoute(String level, int dest);
 
   private:
     /* Stream object used to send commands */
