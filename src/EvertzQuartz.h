@@ -122,7 +122,16 @@ class EvertzQuartz {
     /* Stream pointer for debugging */
     Stream* debugPtr;
     
-    // Returns revertive from router
+    /*
+    * Sends commmand to router
+    * Params :
+    * String    Command to send
+    * Returns :
+    * int       Number of bytes written
+    */
+    int sendCommand(String command);
+
+    /* Returns revertive from router */
     String getRevertive();
 
     /*

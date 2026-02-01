@@ -30,11 +30,20 @@ EvertzQuartz::EvertzQuartz(Stream& stream, int timeout, Stream* debugPtr):serial
   serial.setTimeout(timeout);
 }
 
+int EvertzQuartz::sendCommand(String command) {
+
+  if (debugPtr) {
+    debugPtr->println("Command: " + command);
+  }
+  
+  return serial.print(command);
+}
+
 String EvertzQuartz::getRevertive() {
   String revertive = serial.readStringUntil('\r');
 
   if (debugPtr) {
-    debugPtr->println(revertive);
+    debugPtr->println("Revertive: " + revertive);
   }
 
   return revertive;
@@ -69,7 +78,7 @@ bool EvertzQuartz::setXPT(String levels, int dest, int source) {
   String command = ".S" + levels + dest + "," + source + "\r";
 
   // Send xput command
-  serial.print(command);
+  sendCommand(command);
   
   // Get revertive
   String revertive = getRevertive();
@@ -86,7 +95,7 @@ bool EvertzQuartz::destLock(int dest) {
   String command = ".BL" + String(dest) + "\r";
 
   // Send command
-  serial.print(command);
+  sendCommand(command);
 
   // Get revertive
   String revertive = getRevertive();
@@ -103,7 +112,7 @@ bool EvertzQuartz::destUnlock(int dest) {
   String command = ".BU" + String(dest) + "\r";
 
   // Send command
-  serial.print(command);
+  sendCommand(command);
 
   // Get revertive
   String revertive = getRevertive();
@@ -120,7 +129,7 @@ bool EvertzQuartz::getDestLock(int dest) {
   String command = ".BI" + String(dest) + "\r";
 
   // Send command
-  serial.print(command);
+  sendCommand(command);
 
   // Get revertive
   String revertive = getRevertive();
@@ -137,7 +146,7 @@ bool EvertzQuartz::fireSalvo(int salvo) {
   String command = ".F" + String(salvo) + "\r";
 
   // Send command
-  serial.print(command);
+  sendCommand(command);
 
   // Get revertive
   String revertive = getRevertive();
@@ -154,7 +163,7 @@ int EvertzQuartz::getRoute(char level, int dest) {
   String command = ".I" + level + String(dest) + "\r";
 
   // Send command
-  serial.print(command);
+  sendCommand(command);
 
   // Get revertive
   String revertive = getRevertive();
